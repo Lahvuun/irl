@@ -1,0 +1,16 @@
+* Image ReLinker
+This was an attempt at writing a linker capable of linking a new object file into an existing x86 Portable Executable. I failed miserably. Turns out there's a reason people write entires books about linkers.
+
+It's not entirely worthless, though, as it will link a single object file that doesn't use any standard library functions just fine.
+
+You can use it like so: ~irl pe.exe image_info.toml main.o pe_linked.exe~
+
+=image_info.toml= is a file defining two arrays: relocations and symbols. Because PE files normally don't include the relocation and symbol information in them, some other way of providing them is required. I chose a simple toml file. There are two kinds of entries:
+- Relocation with fields ~name~, ~virtual_address~ and ~relocation_type~.
+  - ~name~ is the mangled name of the symbol.
+  - ~virtual_address~ is the address of the relocation once the image is loaded in the memory. For example, for an ~0xe8~ function call at ~0x500000~, you'd set this value to ~0x500001~, because that is where the relative displacement of the call is stored.
+  - ~relocation_type~ is a number corresponding to the type indicators from https://learn.microsoft.com/en-us/windows/win32/debug/pe-format#type-indicators
+- Symbol with fields ~name~, ~virtual_address~ and ~is_function~.
+  - ~name~ is the mangled name of the symbol.
+  - ~virtual_address~ is the address of the symbol once the image is loaded in the memory.
+  - ~is_function~ is a boolean which you're supposed to set for functions and unset for everything else. This will result in the symbol record ~type~ value of either 0x20 or 0x0.

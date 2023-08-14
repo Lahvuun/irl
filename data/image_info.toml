@@ -1,0 +1,9 @@
+[[relocations]]
+name = "__ZN4Core7tolowerEi"
+virtual_address = 0x00571095
+relocation_type = 0x0014
+
+[[symbols]]
+name = "strcpy"
+virtual_address = 0x00571080
+is_function = true

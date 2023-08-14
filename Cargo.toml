@@ -1,0 +1,10 @@
+[package]
+name = "irl"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.69"
+byteorder = "1.4.3"
+serde = { version = "1.0.160", features = ["derive"] }
+toml = "0.7.3"
